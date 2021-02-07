@@ -38,7 +38,7 @@ def create_features(df):
     df = df.groupby(by=["Country", "date"]).agg({"Price": "sum"}).reset_index()
     df["date"] = pd.to_datetime(df["date"])
 
-    # add missing values
+    # add missing dates by reindexing each time series
     appended_dfs = []
     for country in df["Country"].unique():
         temp_df = df.loc[df["Country"] == country, :]
@@ -75,5 +75,27 @@ def create_features(df):
     # include day and month to capture seasonality trends
     df["Month"] = df["date"].dt.month
     df["Day"] = df["date"].dt.day
+
+    return df
+
+
+def select_top_countries(df, n=10):
+    """
+    Only return subset of dataframe with top n countries based on total revenue, i.e. sum of Price
+    """
+    top_countries = list(df.groupby("Country").agg({"Price": "sum"}).sort_values(by="Price", ascending=False).iloc[:n].index)
+    return df.loc[df["Country"] in top_countries, :]
+
+
+def fetch_data(data_dir_path):
+    """
+    Load data from directory and preprocess it
+    """
+    print("Extracting data from folder" + data_dir_path)
+    data_df = extract_json(data_dir_path)
+
+    print("Preprocessing data")
+    return select_top_countries(create_features(data_df))
+
 
 
