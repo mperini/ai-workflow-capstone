@@ -18,6 +18,10 @@ To run model training and prediction:
 
 `python model.py`
 
+To run all tests together:
+
+`python run_all_tests.py`
+
 To run model unit tests:
 
 `python unittests/ModelTests.py`
@@ -25,3 +29,7 @@ To run model unit tests:
 To run API unit tests:
 
 `python unittests/ApiTests.py`
+
+To run logging unit tests:
+
+`python unittests/LoggingTests.py`
