@@ -20,8 +20,8 @@ To run model training and prediction:
 
 To run model unit tests:
 
-`python ModelTests.py`
+`python unittests/ModelTests.py`
 
 To run API unit tests:
 
-`python ApiTests.py`
+`python unittests/ApiTests.py`
