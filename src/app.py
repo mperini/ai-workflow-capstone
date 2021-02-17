@@ -4,16 +4,12 @@ from flask import render_template, send_from_directory
 import os
 import sys
 import re
-import joblib
-import socket
-import json
-import numpy as np
-import pandas as pd
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "src"))
 ## import model specific functions and variables
 from model import *
-train_dir = "../cs-train"
+train_dir = os.path.join(os.path.dirname(__file__), "..", "cs-train")
+valid_dir = os.path.join(os.path.dirname(__file__), "..", "cs-production")
 
 app = Flask(__name__)
 
@@ -90,15 +86,17 @@ def predict():
     print(query)
     result = {}
     if query['country'] == 'all':
-        countries = ['portugal', 'united_kingdom', 'hong_kong', 'eire',
-                     'spain', 'france', 'singapore', 'norway', 'germany', 'netherlands']
+        countries = ['Portugal', 'United Kingdom', 'Hong Kong', 'EIRE',
+                     'Spain', 'France', 'Singapore', 'Norway', 'Germany', 'Netherlands']
     else:
         countries = query['country'].split(',')
 
     for country in countries:
-        _result = model_predict(country, query['date'])
-        print("Predicted revenue for {} is {}".format(country, _result['y_pred'][0]))
-        result[country] = convert_numpy_objects(_result)
+        _result = model_predict(train_dir, country, query['date'])
+        result_dict = { "Country": country,
+                        "y_pred": _result}
+        print("Predicted revenue for {} is {}".format(country, np.round(_result[0], 2)))
+        result[country] = convert_numpy_objects(result_dict)
 
     return (jsonify(result))
 

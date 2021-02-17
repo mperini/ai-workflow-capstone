@@ -9,7 +9,7 @@ if not os.path.exists(os.path.join(".", "logs")):
 
 module_path = os.path.abspath(__file__)
 dir_path = os.path.dirname(module_path)
-unittest_path = os.path.join(dir_path, "..", "unittests")
+unittest_path = os.path.join(dir_path, "..", "test")
 
 def update_train_log(data_shape, runtime, MODEL_VERSION, MODEL_VERSION_NOTE, test):
     """

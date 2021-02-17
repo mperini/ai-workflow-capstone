@@ -8,7 +8,7 @@ from ast import literal_eval
 port = 8080
 
 try:
-    requests.post('http://0.0.0.0:{}/ping'.format(port))
+    requests.post('http://localhost:{}/ping'.format(port))
     server_available = True
 except:
     server_available = False
@@ -27,7 +27,7 @@ class ApiTest(unittest.TestCase):
         """
 
         request_json = {'mode': 'test'}
-        r = requests.post('http://0.0.0.0:{}/train'.format(port), json=request_json)
+        r = requests.post('http://localhost:{}/train'.format(port), json=request_json)
         train_complete = re.sub("\W+", "", r.text)
         self.assertEqual(train_complete, 'true')
 
@@ -38,11 +38,11 @@ class ApiTest(unittest.TestCase):
         """
 
         ## provide no data at all
-        r = requests.post('http://0.0.0.0:{}/predict'.format(port))
+        r = requests.post('http://localhost:{}/predict'.format(port))
         self.assertEqual(re.sub('\n|"', '', r.text), "[]")
 
         ## provide improperly formatted data
-        r = requests.post('http://0.0.0.0:{}/predict'.format(port), json={"key": "value"})
+        r = requests.post('http://localhost:{}/predict'.format(port), json={"key": "value"})
         self.assertEqual(re.sub('\n|"', '', r.text), "[]")
 
     @unittest.skipUnless(server_available, "local server is not running")
@@ -51,17 +51,17 @@ class ApiTest(unittest.TestCase):
         test the predict functionality
         """
 
-        query_data = {'country': 'united_kingdom',
-                      'date': '2019-02-01'}
+        query_data = {'country': 'United Kingdom',
+                      'date': '2018-06-12'}
 
         query_type = 'dict'
         request_json = {'query': query_data, 'type': query_type, 'mode': 'test'}
 
-        r = requests.post('http://0.0.0.0:{}/predict'.format(port), json=request_json)
+        r = requests.post('http://localhost:{}/predict'.format(port), json=request_json)
         print(r.text)
         response = literal_eval(r.text)
 
-        for p in response['united_kingdom']['y_pred']:
+        for p in response['United Kingdom']['y_pred']:
             self.assertTrue(p is not None)
 
     @unittest.skipUnless(server_available, "local server is not running")
@@ -70,16 +70,16 @@ class ApiTest(unittest.TestCase):
         test the predict functionality
         """
         query_data = {'country': 'all',
-                      'date': '2019-02-01'}
+                      'date': '2018-06-12'}
 
         query_type = 'dict'
         request_json = {'query': query_data, 'type': query_type, 'mode': 'test'}
 
-        r = requests.post('http://0.0.0.0:{}/predict'.format(port), json=request_json)
+        r = requests.post('http://localhost:{}/predict'.format(port), json=request_json)
         print(r.text)
         response = literal_eval(r.text)
 
-        for p in ['united_kingdom', 'portugal']:
+        for p in ['United Kingdom', 'Portugal']:
             self.assertTrue(response[p]['y_pred'] is not None)
 
     @unittest.skipUnless(server_available, "local server is not running")
@@ -87,17 +87,17 @@ class ApiTest(unittest.TestCase):
         """
         test the predict functionality
         """
-        query_data = {'country': 'united_kingdom,portugal',
-                      'date': '2019-02-01'}
+        query_data = {'country': 'United Kingdom,Portugal',
+                      'date': '2018-06-12'}
 
         query_type = 'dict'
         request_json = {'query': query_data, 'type': query_type, 'mode': 'test'}
 
-        r = requests.post('http://0.0.0.0:{}/predict'.format(port), json=request_json)
+        r = requests.post('http://localhost:{}/predict'.format(port), json=request_json)
         print(r.text)
         response = literal_eval(r.text)
 
-        for p in ['united_kingdom', 'portugal']:
+        for p in ['United Kingdom', 'Portugal']:
             self.assertTrue(response[p]['y_pred'] is not None)
 
     @unittest.skipUnless(server_available, "local server is not running")
@@ -106,8 +106,8 @@ class ApiTest(unittest.TestCase):
         test the log functionality
         """
 
-        file_name = 'unittests-train-2020-6.log'
-        r = requests.get('http://0.0.0.0:{}/logs/{}'.format(port, file_name))
+        file_name = 'test-train-2020-6.log'
+        r = requests.get('http://localhost:{}/logs/{}'.format(port, file_name))
 
         with open(file_name, 'wb') as f:
             f.write(r.content)

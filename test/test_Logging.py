@@ -2,17 +2,14 @@
 from datetime import date
 import os
 import sys
-import csv
 import unittest
-from ast import literal_eval
 import pandas as pd
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', "src"))
 ## import model specific functions and variables
 from logger import update_train_log, update_predict_log
 
-LOG_DIR = os.path.join(os.path.dirname(__file__), '..', 'unittests', 'logs')
-#LOG_DIR = os.path.join(os.path.dirname(__file__), 'logs')
+LOG_DIR = os.path.join(os.path.dirname(__file__), '..', 'test', 'logs')
 
 
 class LoggingTest(unittest.TestCase):

@@ -20,16 +20,16 @@ To run model training and prediction:
 
 To run all tests together:
 
-`python run_all_tests.py`
+`python -m unittest discover`
 
 To run model unit tests:
 
-`python unittests/ModelTests.py`
+`python test/ModelTests.py`
 
 To run API unit tests:
 
-`python unittests/ApiTests.py`
+`python test/ApiTests.py`
 
 To run logging unit tests:
 
-`python unittests/LoggingTests.py`
+`python test/LoggingTests.py`
