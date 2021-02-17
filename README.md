@@ -6,6 +6,7 @@ predicts the total forecast for a chosen country given past revenue data.
     ├── cs-production       # Validation data
     ├── cs-train            # Training data
     ├── notebooks           # Jupyter notebooks for data/modeling exploration
+    ├── results/models      # Results folder    
     ├── src                 # Source files
     ├── test                # Unit tests
     Dockerfile
