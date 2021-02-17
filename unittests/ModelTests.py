@@ -1,10 +1,13 @@
-#!/usr/bin/env python
 import unittest
+import os, sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', "src"))
 from model import *
 
-results_dir = "../results"
-train_dir = "../cs-train"
-data_dir = "../cs-production"
+module_path = os.path.abspath(__file__)
+dir_path = os.path.dirname(module_path)
+results_dir = os.path.join(dir_path, "../results")
+train_dir = os.path.join(dir_path, "../cs-train")
+data_dir = os.path.join(dir_path, "../cs-production")
 
 
 class ModelTest(unittest.TestCase):
@@ -39,8 +42,8 @@ class ModelTest(unittest.TestCase):
 
         ## load model first
         country = 'EIRE'
-        result1 = model_predict(data_dir, country, "2018-01-01")
-        result2 = model_predict(country, "2019-01-01")
+        result1 = model_predict(data_dir, country, "2019-08-30")
+        result2 = model_predict(data_dir, country, "2019-11-01")
         result_list = [result1, result2]
         for result in result_list:
             self.assertTrue(result)

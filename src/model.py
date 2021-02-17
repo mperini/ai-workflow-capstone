@@ -13,7 +13,7 @@ from preparation import fetch_data
 module_path = os.path.abspath(__file__)
 dir_path = os.path.dirname(module_path)
 data_dir = "../cs-train"
-model_dir = "../results/models"
+model_dir = os.path.join(dir_path, "../results/models")
 non_feature_cols = ["date", "Price", "Country", "target"]
 model_name = "AdaBoostRegressor"
 
@@ -74,12 +74,12 @@ def train_model(df):
 
 
 if __name__ == "__main__":
-    # # fetch data
-    # data_df = fetch_data(os.path.join(dir_path, data_dir))
-    #
-    # # train API endpoint
-    # print("Training models.")
-    # train_model(data_df)
+    # fetch data
+    data_df = fetch_data(os.path.join(dir_path, data_dir))
+
+    # train API endpoint
+    print("Training models.")
+    train_model(data_df)
 
     # predict API endpoint
     date = "2019-06-28"
@@ -87,4 +87,3 @@ if __name__ == "__main__":
     print("Prediction for date: " + date + " and country " + country)
     y_pred = model_predict(data_dir, country, date)
     print("Predicted revenue: " + str(np.round(y_pred, 2)))
-    
