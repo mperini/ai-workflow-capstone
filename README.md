@@ -7,7 +7,11 @@ predicts the total forecast for a chosen country given past revenue data.
     ├── cs-train            # Training data
     ├── notebooks           # Jupyter notebooks for data/modeling exploration
     ├── src                 # Source files
-    ├── unittests           # Unit tests
+    ├── test                # Unit tests
+    Dockerfile
+    README.md
+    requirements.txt
+    run_all_tests.py
 
 ## Usage
 To set up the API:
