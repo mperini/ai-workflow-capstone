@@ -19,11 +19,11 @@ def extract_json(data_dir_path):
             with open(os.path.join(data_dir_path, file)) as f:
                 data.append(pd.DataFrame.from_dict(json.load(f)))
 
-    df = pd.concat(data)
-
     # impose same naming convention for all files
-    for df in data:
-        df.columns = ["Country", "Customer ID", "Invoice", "Price", "Stream ID", "Times Viewed", "Year", "Month", "Day"]
+    for json_df in data:
+        json_df.columns = ["Country", "Customer ID", "Invoice", "Price", "Stream ID", "Times Viewed", "Year", "Month", "Day"]
+
+    df = pd.concat(data)
     df["date"] = pd.to_datetime(df[["Year", "Month", "Day"]])
     return df.sort_values(by="date").reset_index(drop=True)
 
@@ -50,7 +50,7 @@ def create_features(df):
         temp_df = pd.DataFrame(s)
         temp_df["Country"] = country
         appended_dfs.append(temp_df)
-    df = pd.concat(appended_dfs)
+    df = pd.concat(appended_dfs).reset_index()
     df.columns = ["date", "Price", "Country"]
 
     # create features and target variable
@@ -76,7 +76,7 @@ def create_features(df):
     df["Month"] = df["date"].dt.month
     df["Day"] = df["date"].dt.day
 
-    return df
+    return df.dropna()
 
 
 def select_top_countries(df, n=10):
@@ -84,14 +84,14 @@ def select_top_countries(df, n=10):
     Only return subset of dataframe with top n countries based on total revenue, i.e. sum of Price
     """
     top_countries = list(df.groupby("Country").agg({"Price": "sum"}).sort_values(by="Price", ascending=False).iloc[:n].index)
-    return df.loc[df["Country"] in top_countries, :]
+    return df.loc[df["Country"].isin(top_countries), :]
 
 
 def fetch_data(data_dir_path):
     """
     Load data from directory and preprocess it
     """
-    print("Extracting data from folder" + data_dir_path)
+    print("Extracting data from folder " + data_dir_path)
     data_df = extract_json(data_dir_path)
 
     print("Preprocessing data")
