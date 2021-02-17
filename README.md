@@ -37,3 +37,21 @@ To run API unit tests:
 To run logging unit tests:
 
 `python test/test_Logging.py`
+
+## For evaluation
+- __Are there unit tests for the API?__ `test_Api.py`
+- __Are there unit tests for the model?__ `test_Model.py`
+- __Are there unit tests for the logging?__ `test_Logging.py`
+- __Can all of the unit tests be run with a single script and do all of the unit tests pass?__
+Run `python -m unittest discover`
+- __Is there a mechanism to monitor performance?__ Performance can be assessed from logs
+- __Was there an attempt to isolate the read/write unit tests from production models and logs?__ 
+Selection mechanism via the `test` flag
+- __Does the API work as expected? For example, can you get predictions for a specific country as well as for all countries combined?__
+  See test cases 3 to 5 in `test_Api.py`
+- __Does the data ingestion exists as a function or script to facilitate automation?__ `preparation.py`
+- __Were multiple models compared?__ See `Modeling.ipynb`
+- __Did the EDA investigation use visualizations?__ See `Data prep.ipynb`
+- __Is everything containerized within a working Docker image?__ See `Dockerfile`
+- __Did they use a visualization to compare their model to the baseline model?__ See `Modeling.ipynb`
+
