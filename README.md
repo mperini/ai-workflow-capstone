@@ -24,12 +24,12 @@ To run all tests together:
 
 To run model unit tests:
 
-`python test/ModelTests.py`
+`python test/test_Model.py`
 
 To run API unit tests:
 
-`python test/ApiTests.py`
+`python test/test_Api.py`
 
 To run logging unit tests:
 
-`python test/LoggingTests.py`
+`python test/test_Logging.py`
